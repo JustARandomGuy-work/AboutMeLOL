@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express"; // Added Request and Response imports here
 import { eq } from "drizzle-orm";
 import { db, usersTable, linksTable, appearancesTable, profileViewsTable, linkClicksTable } from "@workspace/db";
 import { requireAuth } from "../middlewares/auth";
@@ -6,7 +6,8 @@ import { generateId, getTodayDate } from "../lib/id";
 
 const router = Router();
 
-router.get("/profiles/:username", async (req, res) => {
+// Added : Request, : Response below
+router.get("/profiles/:username", async (req: Request, res: Response) => {
   try {
     const { username } = req.params;
 
@@ -70,7 +71,8 @@ router.get("/profiles/:username", async (req, res) => {
   }
 });
 
-router.post("/profiles/:username/view", async (req, res) => {
+// Added : Request, : Response below
+router.post("/profiles/:username/view", async (req: Request, res: Response) => {
   try {
     const { username } = req.params;
 
@@ -104,7 +106,8 @@ router.post("/profiles/:username/view", async (req, res) => {
   }
 });
 
-router.post("/links/:id/click", async (req, res) => {
+// Added : Request, : Response below
+router.post("/links/:id/click", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
@@ -139,7 +142,8 @@ router.post("/links/:id/click", async (req, res) => {
   }
 });
 
-router.get("/check-username/:username", async (req, res) => {
+// Added : Request, : Response below
+router.get("/check-username/:username", async (req: Request, res: Response) => {
   try {
     const { username } = req.params;
     const normalized = username.toLowerCase().trim();
