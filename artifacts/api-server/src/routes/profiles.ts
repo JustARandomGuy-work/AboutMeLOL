@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express"; // Added Request and Response imports here
+import { Router, Request, Response } from "express";
 import { eq } from "drizzle-orm";
 import { db, usersTable, linksTable, appearancesTable, profileViewsTable, linkClicksTable } from "@workspace/db";
 import { requireAuth } from "../middlewares/auth";
@@ -6,10 +6,10 @@ import { generateId, getTodayDate } from "../lib/id";
 
 const router = Router();
 
-// Added : Request, : Response below
 router.get("/profiles/:username", async (req: Request, res: Response) => {
   try {
-    const { username } = req.params;
+    // Force username to be treated as a string
+    const username = req.params.username as string;
 
     const user = await db.query.usersTable.findFirst({
       where: eq(usersTable.username, username),
@@ -71,10 +71,10 @@ router.get("/profiles/:username", async (req: Request, res: Response) => {
   }
 });
 
-// Added : Request, : Response below
 router.post("/profiles/:username/view", async (req: Request, res: Response) => {
   try {
-    const { username } = req.params;
+    // Force username to be treated as a string
+    const username = req.params.username as string;
 
     const user = await db.query.usersTable.findFirst({
       where: eq(usersTable.username, username),
@@ -106,10 +106,10 @@ router.post("/profiles/:username/view", async (req: Request, res: Response) => {
   }
 });
 
-// Added : Request, : Response below
 router.post("/links/:id/click", async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    // Force id to be treated as a string
+    const id = req.params.id as string;
 
     const link = await db.query.linksTable.findFirst({
       where: eq(linksTable.id, id),
@@ -125,7 +125,7 @@ router.post("/links/:id/click", async (req: Request, res: Response) => {
     await Promise.all([
       db.insert(linkClicksTable).values({
         id: generateId(),
-        linkId: id,
+        linkId: id, // Explicitly verified string type
         userId: link.userId,
         clickDate: today,
       }),
@@ -142,10 +142,10 @@ router.post("/links/:id/click", async (req: Request, res: Response) => {
   }
 });
 
-// Added : Request, : Response below
 router.get("/check-username/:username", async (req: Request, res: Response) => {
   try {
-    const { username } = req.params;
+    // Force username to be treated as a string
+    const username = req.params.username as string;
     const normalized = username.toLowerCase().trim();
 
     const reserved = ["admin", "api", "dashboard", "login", "register", "upgrade", "settings", "help", "support", "about", "terms", "privacy", "blog"];
