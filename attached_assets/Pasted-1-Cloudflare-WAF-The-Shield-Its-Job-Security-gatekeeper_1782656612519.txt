@@ -1,0 +1,18 @@
+1. Cloudflare WAF (The Shield) Its Job: Security gatekeeper.
+Why it matters: Sites like guns.lol are constantly targeted by rival sites or bots trying to scrape rare usernames. Cloudflare blocks them before they ever touch your servers.
+
+2. Vercel (The Presentation) Its Job: Hosts your frontend website design. Why it matters: It copies your code to servers all around the world. No matter where a visitor lives, your user profile pages snap open instantly.
+
+3. Railway (The Brain) Its Job: Runs your backend server code. Why it matters: It handles the complex logic (like registering accounts, checking if a username is taken, and processing settings). It automatically handles spikes in traffic so your servers never freeze.
+
+4. Drizzle ORM (The Free Bridge) Its Job: Connects your Railway backend code to your database. Why it matters: It is 100% free and lets you talk to your database in clean, modern code instead of writing long, messy SQL commands manually.
+
+5. Upstash Redis (The Instant Memory) Its Job: Remembers profile text configuration in lightning-fast RAM. Why it matters: Instead of asking your database to dig up a user's bio information every single second, Upstash serves it from memory in under 2 milliseconds. This stops your database from getting overwhelmed.
+
+6. Cloudflare R2 (The Media Vault) Its Job: Stores all profile pictures, custom background GIFs, and music. Why it matters: Standard servers charge massive fees for bandwidth. Cloudflare R2 has zero egress fees, meaning you can stream a heavy background GIF to millions of viewers for free. You only pay for the raw storage space used.
+
+7. Supabase (The Vault) Its Job: Houses your primary user database. Why it matters: It is your single source of truth. It securely encrypts passwords, holds account IDs, tracks who paid for what, and remembers all text links.
+
+8. Amazon SES (The Mailman) Its Job: Sends verification codes and password reset emails. Why it matters: It is the cheapest option on earth ($0.10 for every 1,000 emails). This keeps your bills tiny when you have millions of users registering accounts.
+
+9. PayPal (The Cash Register) Its Job: Processes payments for premium upgrades. Why it matters: Since you dropped custom domains, you will make money by selling profile cosmetics (glowing text, premium profile badges, profile animations). Users buy these perks directly via a trusted PayPal button.
