@@ -292,13 +292,13 @@ export default function LandingPage() {
           <div className="absolute w-96 h-96 rounded-full top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
             style={{ background: "radial-gradient(circle, rgba(120,40,200,0.12) 0%, transparent 70%)", filter: "blur(40px)" }} />
         </div>
-        <div className="container relative z-10">
-          <div className="text-center mb-16">
+        <div className="relative z-10 max-w-6xl mx-auto px-4">
+          <div className="text-center mb-16 flex flex-col items-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-purple-500/20 bg-purple-500/8 px-4 py-1.5 text-sm font-semibold text-purple-400 mb-5">
               <Zap className="h-3.5 w-3.5" /> Why Biolink
             </div>
             <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">Built for the culture.</h2>
-            <p className="text-white/50 text-lg max-w-xl mx-auto">Everything you need to stand out. Nothing you don't.</p>
+            <p className="text-white/50 text-lg max-w-xl">Everything you need to stand out. Nothing you don't.</p>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -326,7 +326,7 @@ export default function LandingPage() {
 
       {/* ── PROFILES SHOWCASE ── */}
       <section className="relative py-28 px-4 overflow-hidden">
-        <div className="container relative z-10">
+        <div className="relative z-10 max-w-6xl mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="flex-1 space-y-6">
               <div className="inline-flex items-center gap-2 rounded-full border border-purple-500/20 bg-purple-500/8 px-4 py-1.5 text-sm font-semibold text-purple-400">
@@ -383,8 +383,8 @@ export default function LandingPage() {
           <div className="absolute w-[600px] h-[400px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             style={{ background: "radial-gradient(circle, rgba(120,40,200,0.1) 0%, transparent 70%)", filter: "blur(60px)" }} />
         </div>
-        <div className="container relative z-10 max-w-4xl">
-          <div className="text-center mb-14">
+        <div className="relative z-10 max-w-4xl mx-auto px-4">
+          <div className="text-center mb-14 flex flex-col items-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-purple-500/20 bg-purple-500/8 px-4 py-1.5 text-sm font-semibold text-purple-400 mb-5">
               <Sparkles className="h-3.5 w-3.5" /> Simple Pricing
             </div>
@@ -470,7 +470,7 @@ export default function LandingPage() {
           <div className="absolute top-0 left-0 right-0 h-px"
             style={{ background: "linear-gradient(90deg, transparent, rgba(168,85,247,0.4), transparent)" }} />
         </div>
-        <div className="container relative z-10 text-center max-w-3xl">
+        <div className="relative z-10 text-center max-w-3xl mx-auto px-4">
           <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-6 leading-tight">
             Your link. Your vibe.<br />
             <span className="text-transparent bg-clip-text animate-gradient-shift"
