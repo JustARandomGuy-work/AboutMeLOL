@@ -3,20 +3,32 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Link-in-Bio API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: profiles
+    description: Public profile operations
+  - name: users
+    description: Authenticated user operations
+  - name: links
+    description: Link management
+  - name: appearance
+    description: Profile appearance
+  - name: analytics
+    description: Analytics operations
+  - name: payments
+    description: Payment operations
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +36,356 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /profiles/{username}:
+    get:
+      operationId: getPublicProfile
+      tags: [profiles]
+      summary: Get public profile by username
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Public profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PublicProfile"
+        "404":
+          description: Profile not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /profiles/{username}/view:
+    post:
+      operationId: recordProfileView
+      tags: [profiles]
+      summary: Record a profile view
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: View recorded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /links/{id}/click:
+    post:
+      operationId: recordLinkClick
+      tags: [links]
+      summary: Record a link click
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Click recorded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /check-username/{username}:
+    get:
+      operationId: checkUsernameAvailability
+      tags: [users]
+      summary: Check if a username is available
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Username availability
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsernameAvailability"
+
+  /users/me:
+    get:
+      operationId: getMe
+      tags: [users]
+      summary: Get the current authenticated user
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      operationId: updateMe
+      tags: [users]
+      summary: Update current user profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUpdate"
+      responses:
+        "200":
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /users/me/links:
+    get:
+      operationId: getMyLinks
+      tags: [links]
+      summary: Get the current user's links
+      responses:
+        "200":
+          description: List of links
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Link"
+    post:
+      operationId: createLink
+      tags: [links]
+      summary: Create a new link
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LinkInput"
+      responses:
+        "201":
+          description: Created link
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Link"
+
+  /users/me/links/reorder:
+    post:
+      operationId: reorderLinks
+      tags: [links]
+      summary: Reorder links
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LinkReorder"
+      responses:
+        "200":
+          description: Links reordered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /users/me/links/{id}:
+    put:
+      operationId: updateLink
+      tags: [links]
+      summary: Update a link
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LinkUpdate"
+      responses:
+        "200":
+          description: Updated link
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Link"
+        "404":
+          description: Link not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      operationId: deleteLink
+      tags: [links]
+      summary: Delete a link
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Link deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /users/me/appearance:
+    get:
+      operationId: getAppearance
+      tags: [appearance]
+      summary: Get profile appearance settings
+      responses:
+        "200":
+          description: Appearance settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Appearance"
+    put:
+      operationId: updateAppearance
+      tags: [appearance]
+      summary: Update profile appearance settings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AppearanceUpdate"
+      responses:
+        "200":
+          description: Updated appearance
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Appearance"
+
+  /users/me/avatar-upload-url:
+    post:
+      operationId: getAvatarUploadUrl
+      tags: [users]
+      summary: Get a presigned R2 URL to upload an avatar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UploadUrlRequest"
+      responses:
+        "200":
+          description: Presigned upload URL and final public URL
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PresignedUpload"
+
+  /users/me/background-upload-url:
+    post:
+      operationId: getBackgroundUploadUrl
+      tags: [appearance]
+      summary: Get a presigned R2 URL to upload a background image or GIF
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UploadUrlRequest"
+      responses:
+        "200":
+          description: Presigned upload URL and final public URL
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PresignedUpload"
+
+  /users/me/analytics:
+    get:
+      operationId: getMyAnalytics
+      tags: [analytics]
+      summary: Get detailed analytics for current user
+      responses:
+        "200":
+          description: Analytics data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Analytics"
+
+  /users/me/stats:
+    get:
+      operationId: getMyStats
+      tags: [analytics]
+      summary: Get quick stats summary for current user
+      responses:
+        "200":
+          description: Quick stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Stats"
+
+  /payments/paypal/create-order:
+    post:
+      operationId: createPaypalOrder
+      tags: [payments]
+      summary: Create a PayPal order for premium upgrade
+      responses:
+        "200":
+          description: PayPal order created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaypalOrder"
+
+  /payments/paypal/capture-order:
+    post:
+      operationId: capturePaypalOrder
+      tags: [payments]
+      summary: Capture a PayPal order and activate premium
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaypalCapture"
+      responses:
+        "200":
+          description: Premium activated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +396,378 @@ components:
       required:
         - status
 
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: ["string", "null"]
+      required:
+        - success
+
+    UsernameAvailability:
+      type: object
+      properties:
+        available:
+          type: boolean
+        username:
+          type: string
+      required:
+        - available
+        - username
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        displayName:
+          type: ["string", "null"]
+        email:
+          type: string
+        avatarUrl:
+          type: ["string", "null"]
+        bio:
+          type: ["string", "null"]
+        isPremium:
+          type: boolean
+        isVerified:
+          type: boolean
+        createdAt:
+          type: string
+        profileUrl:
+          type: string
+      required:
+        - id
+        - username
+        - email
+        - isPremium
+        - isVerified
+        - createdAt
+        - profileUrl
+
+    UserUpdate:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 3
+          maxLength: 30
+        displayName:
+          type: string
+          maxLength: 50
+        bio:
+          type: string
+          maxLength: 200
+
+    Link:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        title:
+          type: string
+        url:
+          type: string
+        icon:
+          type: ["string", "null"]
+        order:
+          type: integer
+        isVisible:
+          type: boolean
+        clicks:
+          type: integer
+        createdAt:
+          type: string
+      required:
+        - id
+        - userId
+        - title
+        - url
+        - order
+        - isVisible
+        - clicks
+        - createdAt
+
+    LinkInput:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 100
+        url:
+          type: string
+        icon:
+          type: string
+      required:
+        - title
+        - url
+
+    LinkUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 100
+        url:
+          type: string
+        icon:
+          type: string
+        isVisible:
+          type: boolean
+
+    LinkReorder:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+      required:
+        - ids
+
+    Appearance:
+      type: object
+      properties:
+        userId:
+          type: string
+        theme:
+          type: string
+        backgroundColor:
+          type: ["string", "null"]
+        backgroundGradient:
+          type: ["string", "null"]
+        backgroundImageUrl:
+          type: ["string", "null"]
+        backgroundType:
+          type: string
+        fontFamily:
+          type: string
+        textColor:
+          type: ["string", "null"]
+        accentColor:
+          type: ["string", "null"]
+        buttonStyle:
+          type: string
+        showBadge:
+          type: boolean
+        glowEffect:
+          type: boolean
+        animatedBackground:
+          type: boolean
+      required:
+        - userId
+        - theme
+        - backgroundType
+        - fontFamily
+        - showBadge
+        - glowEffect
+        - animatedBackground
+
+    AppearanceUpdate:
+      type: object
+      properties:
+        theme:
+          type: string
+        backgroundColor:
+          type: string
+        backgroundGradient:
+          type: string
+        backgroundImageUrl:
+          type: string
+        backgroundType:
+          type: string
+        fontFamily:
+          type: string
+        textColor:
+          type: string
+        accentColor:
+          type: string
+        buttonStyle:
+          type: string
+        showBadge:
+          type: boolean
+        glowEffect:
+          type: boolean
+        animatedBackground:
+          type: boolean
+
+    PublicProfile:
+      type: object
+      properties:
+        username:
+          type: string
+        displayName:
+          type: ["string", "null"]
+        bio:
+          type: ["string", "null"]
+        avatarUrl:
+          type: ["string", "null"]
+        isPremium:
+          type: boolean
+        isVerified:
+          type: boolean
+        appearance:
+          $ref: "#/components/schemas/Appearance"
+        links:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicLink"
+        viewCount:
+          type: integer
+      required:
+        - username
+        - isPremium
+        - isVerified
+        - links
+        - viewCount
+
+    PublicLink:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        url:
+          type: string
+        icon:
+          type: ["string", "null"]
+        clicks:
+          type: integer
+      required:
+        - id
+        - title
+        - url
+        - clicks
+
+    UploadUrlRequest:
+      type: object
+      properties:
+        contentType:
+          type: string
+        fileName:
+          type: string
+      required:
+        - contentType
+        - fileName
+
+    PresignedUpload:
+      type: object
+      properties:
+        uploadUrl:
+          type: string
+        publicUrl:
+          type: string
+      required:
+        - uploadUrl
+        - publicUrl
+
+    Analytics:
+      type: object
+      properties:
+        totalViews:
+          type: integer
+        totalClicks:
+          type: integer
+        viewsLast30Days:
+          type: integer
+        clicksLast30Days:
+          type: integer
+        viewsByDay:
+          type: array
+          items:
+            $ref: "#/components/schemas/DayStat"
+        topLinks:
+          type: array
+          items:
+            $ref: "#/components/schemas/LinkStat"
+      required:
+        - totalViews
+        - totalClicks
+        - viewsLast30Days
+        - clicksLast30Days
+        - viewsByDay
+        - topLinks
+
+    DayStat:
+      type: object
+      properties:
+        date:
+          type: string
+        views:
+          type: integer
+        clicks:
+          type: integer
+      required:
+        - date
+        - views
+        - clicks
+
+    LinkStat:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        clicks:
+          type: integer
+      required:
+        - id
+        - title
+        - clicks
+
+    Stats:
+      type: object
+      properties:
+        totalViews:
+          type: integer
+        totalClicks:
+          type: integer
+        totalLinks:
+          type: integer
+        isPremium:
+          type: boolean
+        profileUrl:
+          type: string
+      required:
+        - totalViews
+        - totalClicks
+        - totalLinks
+        - isPremium
+        - profileUrl
+
+    PaypalOrder:
+      type: object
+      properties:
+        orderId:
+          type: string
+        approvalUrl:
+          type: string
+      required:
+        - orderId
+        - approvalUrl
+
+    PaypalCapture:
+      type: object
+      properties:
+        orderId:
+          type: string
+      required:
+        - orderId
