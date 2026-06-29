@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { ArrowRight, Sparkles, Zap, Shield, BarChart3, Palette, Link2, Check, Diamond } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
@@ -213,6 +213,43 @@ function VibrantPhone({ animDelay = 0 }: { animDelay?: number }) {
           ))}
         </div>
         <div className="mt-auto text-[7px]" style={{ color: "rgba(255,200,230,0.35)" }}>about-me.lol/steve</div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Inline username claim input ── */
+function ClaimInput() {
+  const [username, setUsername] = useState("");
+
+  const handleClaim = useCallback(() => {
+    const u = username.trim().toLowerCase().replace(/[^a-z0-9_-]/g, "");
+    const dest = u ? `/register?username=${encodeURIComponent(u)}` : "/register";
+    window.location.href = dest;
+  }, [username]);
+
+  return (
+    <div className="space-y-2 w-full max-w-sm">
+      <p className="text-xs text-white/50 font-medium">Claim your profile and create an account in minutes!</p>
+      <div className="flex items-center rounded-xl overflow-hidden"
+        style={{ background: "hsl(264,35%,10%)", border: "1px solid rgba(255,255,255,0.1)" }}>
+        <div className="flex items-center pl-3 shrink-0">
+          <span className="text-xs text-white/35 font-medium whitespace-nowrap">about-me.lol/</span>
+        </div>
+        <input
+          type="text"
+          value={username}
+          onChange={e => setUsername(e.target.value)}
+          onKeyDown={e => e.key === "Enter" && handleClaim()}
+          placeholder="username"
+          className="flex-1 bg-transparent text-sm text-white placeholder:text-white/25 outline-none py-2.5 px-1 min-w-0"
+        />
+        <button
+          onClick={handleClaim}
+          className="shrink-0 m-1 px-4 py-2 rounded-lg text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
+          style={{ background: "linear-gradient(135deg, #a855f7, #7c3aed)" }}>
+          Claim Now
+        </button>
       </div>
     </div>
   );
@@ -458,10 +495,8 @@ export default function LandingPage() {
                   </li>
                 ))}
               </ul>
-              <Button asChild className="rounded-full font-bold text-white px-6 h-10 text-sm shadow-[0_0_25px_rgba(150,80,255,0.35)]"
-                style={{ background: "linear-gradient(135deg, #a855f7, #7c3aed)" }}>
-                <Link href="/register">Claim your link <ArrowRight className="ml-1.5 h-3.5 w-3.5" /></Link>
-              </Button>
+              {/* Inline claim input */}
+              <ClaimInput />
             </Reveal>
             <Reveal delay={120} className="flex-1 flex justify-end items-end gap-4 relative">
               <div className="absolute w-64 h-64 rounded-full" style={{ background: "radial-gradient(circle, rgba(168,85,247,0.18) 0%, transparent 70%)", filter: "blur(50px)" }} />
