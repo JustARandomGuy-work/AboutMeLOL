@@ -215,21 +215,154 @@ export default function LandingPage() {
             <h2 className="text-3xl md:text-4xl font-black tracking-tight mb-2">Built for the culture.</h2>
             <p className="text-white/50 text-sm max-w-sm">Everything you need to stand out. Nothing you don't.</p>
           </Reveal>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {FEATURES.map((f, i) => (
-              <Reveal key={i} delay={i * 60}>
-                <div className="group relative rounded-xl p-5 border border-white/5 overflow-hidden transition-all duration-300 hover:border-purple-500/25 hover:-translate-y-0.5 h-full" style={{ background: "hsl(264,40%,8%)" }}>
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-xl" style={{ background: `radial-gradient(circle at 30% 30%, ${f.glow}, transparent 70%)` }} />
-                  <div className="relative z-10">
-                    <div className="mb-3 inline-flex items-center justify-center w-8 h-8 rounded-lg" style={{ background: f.glow, border: "1px solid rgba(255,255,255,0.07)" }}>
-                      <f.icon className="h-4 w-4 text-purple-300" />
-                    </div>
-                    <h3 className="text-sm font-bold mb-1 text-white">{f.title}</h3>
-                    <p className="text-white/45 text-xs leading-relaxed">{f.desc}</p>
+          {/* Bento grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 auto-rows-auto">
+
+            {/* Row 1 col A — Fully Customizable (wide, 2-col) */}
+            <Reveal className="sm:col-span-2">
+              <div className="group relative rounded-xl p-5 border border-white/5 overflow-hidden transition-all duration-300 hover:border-purple-500/25 hover:-translate-y-0.5 h-full" style={{ background: "hsl(264,40%,8%)" }}>
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-xl" style={{ background: "radial-gradient(circle at 20% 50%, rgba(168,85,247,0.12), transparent 65%)" }} />
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className="mb-3 inline-flex items-center justify-center w-8 h-8 rounded-lg" style={{ background: "rgba(168,85,247,0.15)", border: "1px solid rgba(255,255,255,0.07)" }}>
+                    <Palette className="h-4 w-4 text-purple-300" />
+                  </div>
+                  <h3 className="text-sm font-bold mb-1 text-white">Fully Customizable</h3>
+                  <p className="text-white/45 text-xs leading-relaxed mb-4">Themes, gradients, animated backgrounds, custom fonts — make it yours down to the pixel.</p>
+                  {/* Theme swatch preview */}
+                  <div className="mt-auto flex gap-2 flex-wrap">
+                    {[
+                      ["#a855f7","#7c3aed"],["#06b6d4","#0284c7"],["#f97316","#dc2626"],
+                      ["#10b981","#059669"],["#f59e0b","#d97706"],["#ec4899","#db2777"],
+                    ].map(([a,b], i) => (
+                      <div key={i} className="h-7 w-14 rounded-lg shadow-sm" style={{ background: `linear-gradient(135deg, ${a}, ${b})`, border: "1px solid rgba(255,255,255,0.1)" }} />
+                    ))}
+                    <div className="h-7 w-14 rounded-lg flex items-center justify-center text-white/30 text-[10px] font-bold" style={{ border: "1px dashed rgba(255,255,255,0.12)" }}>+more</div>
                   </div>
                 </div>
-              </Reveal>
-            ))}
+              </div>
+            </Reveal>
+
+            {/* Row 1 col B — Blazing Fast (small) */}
+            <Reveal delay={80}>
+              <div className="group relative rounded-xl p-5 border border-white/5 overflow-hidden transition-all duration-300 hover:border-yellow-500/20 hover:-translate-y-0.5 h-full" style={{ background: "hsl(264,40%,8%)" }}>
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-xl" style={{ background: "radial-gradient(circle at 30% 30%, rgba(245,158,11,0.1), transparent 70%)" }} />
+                <div className="relative z-10">
+                  <div className="mb-3 inline-flex items-center justify-center w-8 h-8 rounded-lg" style={{ background: "rgba(245,158,11,0.12)", border: "1px solid rgba(255,255,255,0.07)" }}>
+                    <Zap className="h-4 w-4 text-yellow-400" />
+                  </div>
+                  <h3 className="text-sm font-bold mb-1 text-white">Blazing Fast</h3>
+                  <p className="text-white/45 text-xs leading-relaxed">Sub-second loads. Static CDN delivery globally.</p>
+                  <div className="mt-4 flex items-center gap-1.5">
+                    <div className="text-2xl font-black text-yellow-400">&lt;1s</div>
+                    <div className="text-[9px] text-white/30 leading-tight">avg load<br/>time</div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Row 2 col A — Deep Analytics (wide, 2-col) with mini chart */}
+            <Reveal delay={60} className="sm:col-span-2">
+              <div className="group relative rounded-xl p-5 border border-white/5 overflow-hidden transition-all duration-300 hover:border-indigo-500/25 hover:-translate-y-0.5 h-full" style={{ background: "hsl(264,40%,8%)" }}>
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-xl" style={{ background: "radial-gradient(circle at 20% 50%, rgba(99,102,241,0.12), transparent 65%)" }} />
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className="mb-3 inline-flex items-center justify-center w-8 h-8 rounded-lg" style={{ background: "rgba(99,102,241,0.15)", border: "1px solid rgba(255,255,255,0.07)" }}>
+                    <BarChart3 className="h-4 w-4 text-indigo-300" />
+                  </div>
+                  <h3 className="text-sm font-bold mb-1 text-white">Deep Analytics</h3>
+                  <p className="text-white/45 text-xs leading-relaxed mb-4">Profile views, link clicks, referrers, and geographic data — all in real time.</p>
+                  {/* Mini stats + chart */}
+                  <div className="mt-auto space-y-3">
+                    <div className="flex gap-4">
+                      {[["1,284","Profile Views"],["392","Link Clicks"],["30.5%","Conversion"]].map(([val, label]) => (
+                        <div key={label}>
+                          <div className="text-base font-black text-white">{val}</div>
+                          <div className="text-[9px] text-white/35">{label}</div>
+                        </div>
+                      ))}
+                    </div>
+                    <svg viewBox="0 0 300 48" className="w-full" style={{ height: 48 }}>
+                      <defs>
+                        <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="rgba(99,102,241,0.4)"/>
+                          <stop offset="100%" stopColor="rgba(99,102,241,0)"/>
+                        </linearGradient>
+                      </defs>
+                      <path d="M0,40 C20,36 40,28 60,24 C80,20 100,30 120,22 C140,14 160,8 180,12 C200,16 220,4 240,6 C260,8 280,2 300,4 L300,48 L0,48Z" fill="url(#bg2)"/>
+                      <path d="M0,40 C20,36 40,28 60,24 C80,20 100,30 120,22 C140,14 160,8 180,12 C200,16 220,4 240,6 C260,8 280,2 300,4" fill="none" stroke="rgba(129,140,248,0.9)" strokeWidth="1.5"/>
+                      {[[60,24],[120,22],[180,12],[240,6],[300,4]].map(([x,y],i) => (
+                        <circle key={i} cx={x} cy={y} r="2.5" fill="rgba(129,140,248,1)" />
+                      ))}
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Row 2 col B — Unlimited Links (small) */}
+            <Reveal delay={120}>
+              <div className="group relative rounded-xl p-5 border border-white/5 overflow-hidden transition-all duration-300 hover:border-purple-500/25 hover:-translate-y-0.5 h-full" style={{ background: "hsl(264,40%,8%)" }}>
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-xl" style={{ background: "radial-gradient(circle at 30% 30%, rgba(168,85,247,0.12), transparent 70%)" }} />
+                <div className="relative z-10">
+                  <div className="mb-3 inline-flex items-center justify-center w-8 h-8 rounded-lg" style={{ background: "rgba(168,85,247,0.15)", border: "1px solid rgba(255,255,255,0.07)" }}>
+                    <Link2 className="h-4 w-4 text-purple-300" />
+                  </div>
+                  <h3 className="text-sm font-bold mb-1 text-white">Unlimited Links</h3>
+                  <p className="text-white/45 text-xs leading-relaxed">Drag-and-drop reorder. Toggle visibility instantly.</p>
+                  <div className="mt-4 space-y-1.5">
+                    {["Portfolio","Discord","GitHub"].map((l, i) => (
+                      <div key={l} className="flex items-center gap-2 rounded-lg px-2 py-1.5" style={{ background: i === 0 ? "rgba(168,85,247,0.15)" : "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                        <div className="w-1.5 h-1.5 rounded-full" style={{ background: i === 0 ? "#a855f7" : "rgba(255,255,255,0.2)" }} />
+                        <span className="text-[10px] text-white/60 font-medium">{l}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Row 3 col A — Secure (small) */}
+            <Reveal delay={80}>
+              <div className="group relative rounded-xl p-5 border border-white/5 overflow-hidden transition-all duration-300 hover:border-emerald-500/20 hover:-translate-y-0.5 h-full" style={{ background: "hsl(264,40%,8%)" }}>
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-xl" style={{ background: "radial-gradient(circle at 30% 30%, rgba(16,185,129,0.1), transparent 70%)" }} />
+                <div className="relative z-10">
+                  <div className="mb-3 inline-flex items-center justify-center w-8 h-8 rounded-lg" style={{ background: "rgba(16,185,129,0.12)", border: "1px solid rgba(255,255,255,0.07)" }}>
+                    <Shield className="h-4 w-4 text-emerald-400" />
+                  </div>
+                  <h3 className="text-sm font-bold mb-1 text-white">Secure by Default</h3>
+                  <p className="text-white/45 text-xs leading-relaxed">HTTPS, OAuth login, no ads. Your data stays yours.</p>
+                  <div className="mt-4 flex items-center gap-1.5">
+                    <div className="h-5 w-5 rounded-full flex items-center justify-center" style={{ background: "rgba(16,185,129,0.2)" }}>
+                      <Check className="h-3 w-3 text-emerald-400" />
+                    </div>
+                    <span className="text-[10px] text-emerald-400 font-semibold">SSL + OAuth protected</span>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Row 3 col B+C — $9 Premium (wide, 2-col) */}
+            <Reveal delay={120} className="sm:col-span-2">
+              <div className="group relative rounded-xl p-5 border overflow-hidden transition-all duration-300 hover:-translate-y-0.5 h-full"
+                style={{ background: "linear-gradient(135deg, hsl(272,50%,11%), hsl(264,40%,8%))", border: "1px solid rgba(168,85,247,0.25)", boxShadow: "0 0 30px rgba(150,80,255,0.07)" }}>
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-xl" style={{ background: "radial-gradient(circle at 80% 50%, rgba(251,191,36,0.08), transparent 65%)" }} />
+                <div className="relative z-10 flex flex-col sm:flex-row sm:items-center gap-4">
+                  <div className="flex-1">
+                    <div className="mb-3 inline-flex items-center justify-center w-8 h-8 rounded-lg" style={{ background: "rgba(251,191,36,0.12)", border: "1px solid rgba(255,255,255,0.07)" }}>
+                      <Sparkles className="h-4 w-4 text-yellow-400" />
+                    </div>
+                    <h3 className="text-sm font-bold mb-1 text-white">$9 Lifetime Premium</h3>
+                    <p className="text-white/45 text-xs leading-relaxed">No subscriptions. Pay once, own it forever. Unlock animated effects, verified badge, custom fonts &amp; SEO tools.</p>
+                  </div>
+                  <div className="shrink-0">
+                    <div className="rounded-xl px-5 py-3 text-center" style={{ background: "linear-gradient(135deg, rgba(168,85,247,0.25), rgba(124,58,237,0.2))", border: "1px solid rgba(168,85,247,0.35)" }}>
+                      <div className="text-3xl font-black text-white mb-0.5">$9</div>
+                      <div className="text-[10px] text-purple-300 font-semibold">one-time</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
           </div>
         </div>
       </section>
