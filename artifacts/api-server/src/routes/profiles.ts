@@ -8,7 +8,6 @@ const router = Router();
 
 router.get("/profiles/:username", async (req: Request, res: Response) => {
   try {
-    // Force username to be treated as a string
     const username = req.params.username as string;
 
     const user = await db.query.usersTable.findFirst({
@@ -55,8 +54,8 @@ router.get("/profiles/:username", async (req: Request, res: Response) => {
       isVerified: user.isVerified,
       appearance: appearance ?? defaultAppearance,
       links: links
-        .filter((l) => l.isVisible)
-        .map((l) => ({
+        .filter((l: any) => l.isVisible) // Fixed implicit any
+        .map((l: any) => ({              // Fixed implicit any
           id: l.id,
           title: l.title,
           url: l.url,
@@ -65,7 +64,7 @@ router.get("/profiles/:username", async (req: Request, res: Response) => {
         })),
       viewCount: user.viewCount,
     });
-  } catch (err) {
+  } catch (err: any) { // Fixed implicit any
     req.log.error({ err }, "Failed to get public profile");
     res.status(500).json({ error: "Internal server error" });
   }
@@ -73,7 +72,6 @@ router.get("/profiles/:username", async (req: Request, res: Response) => {
 
 router.post("/profiles/:username/view", async (req: Request, res: Response) => {
   try {
-    // Force username to be treated as a string
     const username = req.params.username as string;
 
     const user = await db.query.usersTable.findFirst({
@@ -100,7 +98,7 @@ router.post("/profiles/:username/view", async (req: Request, res: Response) => {
     ]);
 
     res.json({ success: true, message: null });
-  } catch (err) {
+  } catch (err: any) { // Fixed implicit any
     req.log.error({ err }, "Failed to record profile view");
     res.status(500).json({ error: "Internal server error" });
   }
@@ -108,7 +106,6 @@ router.post("/profiles/:username/view", async (req: Request, res: Response) => {
 
 router.post("/links/:id/click", async (req: Request, res: Response) => {
   try {
-    // Force id to be treated as a string
     const id = req.params.id as string;
 
     const link = await db.query.linksTable.findFirst({
@@ -125,7 +122,7 @@ router.post("/links/:id/click", async (req: Request, res: Response) => {
     await Promise.all([
       db.insert(linkClicksTable).values({
         id: generateId(),
-        linkId: id, // Explicitly verified string type
+        linkId: id,
         userId: link.userId,
         clickDate: today,
       }),
@@ -136,7 +133,7 @@ router.post("/links/:id/click", async (req: Request, res: Response) => {
     ]);
 
     res.json({ success: true, message: null });
-  } catch (err) {
+  } catch (err: any) { // Fixed implicit any
     req.log.error({ err }, "Failed to record link click");
     res.status(500).json({ error: "Internal server error" });
   }
@@ -144,7 +141,6 @@ router.post("/links/:id/click", async (req: Request, res: Response) => {
 
 router.get("/check-username/:username", async (req: Request, res: Response) => {
   try {
-    // Force username to be treated as a string
     const username = req.params.username as string;
     const normalized = username.toLowerCase().trim();
 
@@ -159,7 +155,7 @@ router.get("/check-username/:username", async (req: Request, res: Response) => {
     });
 
     res.json({ available: !existing, username: normalized });
-  } catch (err) {
+  } catch (err: any) { // Fixed implicit any
     req.log.error({ err }, "Failed to check username");
     res.status(500).json({ error: "Internal server error" });
   }
