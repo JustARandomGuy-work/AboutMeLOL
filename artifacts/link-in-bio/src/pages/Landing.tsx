@@ -210,7 +210,7 @@ export default function LandingPage() {
         <div className="relative z-10 max-w-5xl mx-auto">
           <Reveal className="text-center mb-10 flex flex-col items-center">
             <div className="inline-flex items-center gap-1.5 rounded-full border border-purple-500/20 bg-purple-500/8 px-3 py-1 text-xs font-semibold text-purple-400 mb-3">
-              <Zap className="h-3 w-3" /> Why About Me
+              <Zap className="h-3 w-3" /> Why Us
             </div>
             <h2 className="text-3xl md:text-4xl font-black tracking-tight mb-2">Built for the culture.</h2>
             <p className="text-white/50 text-sm max-w-sm">Everything you need to stand out. Nothing you don't.</p>
