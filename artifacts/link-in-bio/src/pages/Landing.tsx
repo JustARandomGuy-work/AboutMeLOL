@@ -119,32 +119,100 @@ const SOCIAL_ICONS = [
   { icon: <GithubIcon />, color: "#24292e" },
 ];
 
-function PhoneMockup({ handle, bio, animDelay = 0 }: { handle: string; bio: string; animDelay?: number }) {
+/* ── Phone A: dark minimal theme ── */
+function DarkPhone({ animDelay = 0 }: { animDelay?: number }) {
   return (
-    <div className="animate-tilt-hover-right relative rounded-[2rem] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.09),0_0_30px_rgba(150,80,255,0.18)]"
-      style={{ width: 168, height: 336, background: "linear-gradient(160deg, hsl(270,50%,10%), hsl(264,50%,7%))", animationDelay: `${animDelay}s`, border: "1.5px solid rgba(255,255,255,0.08)" }}>
+    <div className="animate-tilt-hover-right relative rounded-[2rem] overflow-hidden"
+      style={{
+        width: 168, height: 340,
+        background: "linear-gradient(160deg, hsl(270,50%,10%), hsl(264,50%,7%))",
+        animationDelay: `${animDelay}s`,
+        border: "1.5px solid rgba(255,255,255,0.09)",
+        boxShadow: "0 24px 64px rgba(0,0,0,0.7), 0 0 30px rgba(150,80,255,0.18)",
+      }}>
+      {/* notch */}
       <div className="absolute top-0 inset-x-0 h-4 flex justify-center" style={{ zIndex: 10 }}>
         <div className="w-16 h-3 rounded-b-xl" style={{ background: "hsl(264,40%,7%)" }} />
       </div>
       <div className="flex flex-col items-center p-4 pt-8 h-full">
-        <div className="w-12 h-12 rounded-full mb-2 flex items-center justify-center text-xl shadow-[0_0_15px_rgba(180,80,255,0.5)]"
-          style={{ background: "linear-gradient(135deg, #a855f7, #7c3aed)", border: "2px solid rgba(255,255,255,0.12)" }}>👤</div>
-        <div className="text-[10px] font-bold text-white mb-0.5">{handle}</div>
-        <div className="text-[8px] text-white/40 mb-3 text-center">{bio}</div>
+        {/* avatar — stylised purple initial */}
+        <div className="w-12 h-12 rounded-full mb-2 flex items-center justify-center shadow-[0_0_18px_rgba(168,85,247,0.6)]"
+          style={{ background: "linear-gradient(135deg, #a855f7, #7c3aed)", border: "2px solid rgba(255,255,255,0.15)" }}>
+          <span className="text-base font-black text-white">A</span>
+        </div>
+        <div className="text-[10px] font-bold text-white mb-0.5">@AboutMe</div>
+        <div className="text-[8px] text-white/40 mb-3 text-center">about-me.lol on top</div>
         <div className="flex gap-1.5 mb-3">
           {SOCIAL_ICONS.map((s, i) => (
             <div key={i} className="w-5 h-5 rounded-full flex items-center justify-center text-white" style={{ background: s.color }}>{s.icon}</div>
           ))}
         </div>
         <div className="w-full space-y-1.5">
-          {["My Portfolio", "Discord Server", "GitHub"].map((label, i) => (
-            <div key={i} className="w-full py-2 rounded-xl text-center text-[9px] font-bold text-white"
-              style={{ background: i === 0 ? "linear-gradient(90deg, rgba(168,85,247,0.6), rgba(124,58,237,0.6))" : "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)" }}>
+          {[
+            { label: "My Portfolio", accent: true },
+            { label: "Discord Server", accent: false },
+            { label: "GitHub", accent: false },
+          ].map(({ label, accent }) => (
+            <div key={label} className="w-full py-2 rounded-full text-center text-[9px] font-bold text-white"
+              style={{ background: accent ? "linear-gradient(90deg, rgba(168,85,247,0.7), rgba(124,58,237,0.7))" : "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.09)" }}>
               {label}
             </div>
           ))}
         </div>
-        <div className="mt-auto text-[7px] text-white/20">about-me.lol/{handle.replace("@","").toLowerCase()}</div>
+        <div className="mt-auto text-[7px] text-white/20">about-me.lol/aboutme</div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Phone B: vibrant sunset gradient theme ── */
+function VibrantPhone({ animDelay = 0 }: { animDelay?: number }) {
+  return (
+    <div className="animate-tilt-hover-right relative rounded-[2rem] overflow-hidden"
+      style={{
+        width: 168, height: 340,
+        background: "linear-gradient(145deg, #1a0533 0%, #3b0764 40%, #6b1a8a 70%, #c2185b 100%)",
+        animationDelay: `${animDelay}s`,
+        border: "1.5px solid rgba(255,150,200,0.2)",
+        boxShadow: "0 24px 64px rgba(0,0,0,0.6), 0 0 40px rgba(200,50,150,0.25)",
+      }}>
+      {/* notch */}
+      <div className="absolute top-0 inset-x-0 h-4 flex justify-center" style={{ zIndex: 10 }}>
+        <div className="w-16 h-3 rounded-b-xl" style={{ background: "rgba(0,0,0,0.4)" }} />
+      </div>
+      {/* frosted glass overlay */}
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 60% 0%, rgba(255,100,200,0.15) 0%, transparent 60%)" }} />
+      <div className="flex flex-col items-center p-4 pt-8 h-full relative z-10">
+        {/* avatar — warm gradient with music note */}
+        <div className="w-12 h-12 rounded-2xl mb-2 flex items-center justify-center shadow-[0_0_20px_rgba(236,72,153,0.7)]"
+          style={{ background: "linear-gradient(135deg, #f472b6, #ec4899, #be185d)", border: "2px solid rgba(255,255,255,0.25)" }}>
+          <span className="text-base font-black text-white">S</span>
+        </div>
+        <div className="text-[10px] font-bold text-white mb-0.5">@Steve</div>
+        <div className="text-[8px] mb-3 text-center" style={{ color: "rgba(255,200,230,0.7)" }}>Hi im Steve</div>
+        <div className="flex gap-1.5 mb-3">
+          {SOCIAL_ICONS.map((s, i) => (
+            <div key={i} className="w-5 h-5 rounded-lg flex items-center justify-center text-white" style={{ background: "rgba(255,255,255,0.15)", backdropFilter: "blur(4px)" }}>{s.icon}</div>
+          ))}
+        </div>
+        <div className="w-full space-y-1.5">
+          {[
+            { label: "My Music", accent: true },
+            { label: "Instagram", accent: false },
+            { label: "TikTok", accent: false },
+          ].map(({ label, accent }) => (
+            <div key={label} className="w-full py-2 text-center text-[9px] font-bold text-white"
+              style={{
+                borderRadius: "10px",
+                background: accent ? "linear-gradient(90deg, rgba(236,72,153,0.75), rgba(190,24,93,0.75))" : "rgba(255,255,255,0.1)",
+                border: "1px solid rgba(255,255,255,0.15)",
+                backdropFilter: "blur(6px)",
+              }}>
+              {label}
+            </div>
+          ))}
+        </div>
+        <div className="mt-auto text-[7px]" style={{ color: "rgba(255,200,230,0.35)" }}>about-me.lol/steve</div>
       </div>
     </div>
   );
@@ -193,12 +261,12 @@ export default function LandingPage() {
           {/* 3D Mockups */}
           <div className={`relative w-full flex items-end justify-center gap-5 transition-all duration-1000 delay-500 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
             style={{ perspective: "1200px", minHeight: 320 }}>
-            <div className="hidden lg:block" style={{ transform: "translateY(30px)" }}>
-              <PhoneMockup handle="@AboutMe" bio="about-me.lol on top" animDelay={1} />
+            <div className="hidden lg:block" style={{ transform: "translateY(10px)" }}>
+              <DarkPhone animDelay={1} />
             </div>
             <DashboardMockup />
-            <div className="hidden lg:block" style={{ transform: "translateY(48px)" }}>
-              <PhoneMockup handle="@Steve" bio="Hi im Steve" animDelay={2} />
+            <div className="hidden lg:block" style={{ transform: "translateY(72px)" }}>
+              <VibrantPhone animDelay={2} />
             </div>
             <div className="absolute bottom-0 left-0 right-0 pointer-events-none" style={{ height: 140, background: "linear-gradient(to top, hsl(264,60%,5%) 40%, transparent)" }} />
           </div>
@@ -381,7 +449,7 @@ export default function LandingPage() {
               </h2>
               <p className="text-white/50 text-sm leading-relaxed max-w-sm">Premium themes, animated backgrounds, and glowing accents. Give your followers a destination that matches your energy.</p>
               <ul className="space-y-2">
-                {["Unlimited links & social icons","Deep analytics & click tracking","Custom themes, gradients & fonts","Avatar upload via Cloudflare R2","Zero annoying ads, ever"].map((item, i) => (
+                {["Unlimited links & social icons","Deep analytics & click tracking","Custom themes, gradients & fonts","Instant custom profile pictures","Zero annoying ads, ever"].map((item, i) => (
                   <li key={i} className="flex items-center gap-2.5 text-white/80 font-medium text-xs">
                     <div className="h-4 w-4 rounded-full flex items-center justify-center shrink-0" style={{ background: "rgba(168,85,247,0.2)", border: "1px solid rgba(168,85,247,0.4)" }}>
                       <Check className="h-2.5 w-2.5 text-purple-400" />
@@ -395,11 +463,13 @@ export default function LandingPage() {
                 <Link href="/register">Claim your link <ArrowRight className="ml-1.5 h-3.5 w-3.5" /></Link>
               </Button>
             </Reveal>
-            <Reveal delay={120} className="flex-1 flex justify-center items-center gap-5 relative">
+            <Reveal delay={120} className="flex-1 flex justify-end items-end gap-4 relative">
               <div className="absolute w-64 h-64 rounded-full" style={{ background: "radial-gradient(circle, rgba(168,85,247,0.18) 0%, transparent 70%)", filter: "blur(50px)" }} />
-              <div className="animate-float-slow"><PhoneMockup handle="@AboutMe" bio="about-me.lol on top" /></div>
-              <div className="animate-float-slow hidden sm:block" style={{ animationDelay: "1.5s", marginTop: 48 }}>
-                <PhoneMockup handle="@Steve" bio="Hi im Steve" animDelay={3} />
+              <div className="animate-float-slow" style={{ alignSelf: "flex-start" }}>
+                <DarkPhone />
+              </div>
+              <div className="animate-float-slow hidden sm:block" style={{ animationDelay: "1.5s", marginTop: 64 }}>
+                <VibrantPhone animDelay={3} />
               </div>
             </Reveal>
           </div>
