@@ -66,7 +66,7 @@ router.get("/users/me", requireAuth, async (req, res) => {
       createdAt: user.createdAt.toISOString(),
       profileUrl: `${domain}/${user.username}`,
     });
-  } catch (err) {
+  } catch (err: any) { // Fixed implicit any
     req.log.error({ err }, "Failed to get user");
     res.status(500).json({ error: "Internal server error" });
   }
@@ -124,7 +124,7 @@ router.put("/users/me", requireAuth, async (req, res) => {
       createdAt: user!.createdAt.toISOString(),
       profileUrl: `${domain}/${user!.username}`,
     });
-  } catch (err) {
+  } catch (err: any) { // Fixed implicit any
     req.log.error({ err }, "Failed to update user");
     res.status(500).json({ error: "Internal server error" });
   }
@@ -137,7 +137,7 @@ router.post("/users/me/avatar-upload-url", requireAuth, async (req, res) => {
     const key = `avatars/${req.userId}/${generateId()}.${ext}`;
     const result = await generatePresignedUploadUrl(key, contentType);
     res.json(result);
-  } catch (err) {
+  } catch (err: any) { // Fixed implicit any
     req.log.error({ err }, "Failed to generate avatar upload URL");
     res.status(500).json({ error: "Internal server error" });
   }
@@ -150,7 +150,7 @@ router.post("/users/me/background-upload-url", requireAuth, async (req, res) => 
     const key = `backgrounds/${req.userId}/${generateId()}.${ext}`;
     const result = await generatePresignedUploadUrl(key, contentType);
     res.json(result);
-  } catch (err) {
+  } catch (err: any) { // Fixed implicit any
     req.log.error({ err }, "Failed to generate background upload URL");
     res.status(500).json({ error: "Internal server error" });
   }
@@ -169,7 +169,7 @@ router.get("/users/me/stats", requireAuth, async (req, res) => {
       .from(linksTable)
       .where(eq(linksTable.userId, req.userId!));
 
-    const totalClicks = links.reduce((sum, l) => sum + l.clicks, 0);
+    const totalClicks = links.reduce((sum: any, l: any) => sum + l.clicks, 0); // Fixed implicit any
     const domain = process.env.APP_DOMAIN ?? "https://yourdomain.com";
 
     res.json({
@@ -179,7 +179,7 @@ router.get("/users/me/stats", requireAuth, async (req, res) => {
       isPremium: user?.isPremium ?? false,
       profileUrl: `${domain}/${user?.username ?? ""}`,
     });
-  } catch (err) {
+  } catch (err: any) { // Fixed implicit any
     req.log.error({ err }, "Failed to get stats");
     res.status(500).json({ error: "Internal server error" });
   }
@@ -215,16 +215,16 @@ router.get("/users/me/analytics", requireAuth, async (req, res) => {
       .from(linkClicksTable)
       .where(eq(linkClicksTable.userId, req.userId!));
 
-    const last30Views = recentViews.filter((v) => v.viewDate >= thirtyDaysAgoStr);
-    const last30Clicks = recentClicks.filter((c) => c.clickDate >= thirtyDaysAgoStr);
+    const last30Views = recentViews.filter((v: any) => v.viewDate >= thirtyDaysAgoStr); // Fixed implicit any
+    const last30Clicks = recentClicks.filter((c: any) => c.clickDate >= thirtyDaysAgoStr); // Fixed implicit any
 
     const viewsByDate = new Map<string, number>();
     const clicksByDate = new Map<string, number>();
 
-    last30Views.forEach((v) => {
+    last30Views.forEach((v: any) => { // Fixed implicit any
       viewsByDate.set(v.viewDate, (viewsByDate.get(v.viewDate) ?? 0) + 1);
     });
-    last30Clicks.forEach((c) => {
+    last30Clicks.forEach((c: any) => { // Fixed implicit any
       clicksByDate.set(c.clickDate, (clicksByDate.get(c.clickDate) ?? 0) + 1);
     });
 
@@ -240,11 +240,11 @@ router.get("/users/me/analytics", requireAuth, async (req, res) => {
       });
     }
 
-    const totalClicks = links.reduce((sum, l) => sum + l.clicks, 0);
+    const totalClicks = links.reduce((sum: any, l: any) => sum + l.clicks, 0); // Fixed implicit any
     const topLinks = links
-      .sort((a, b) => b.clicks - a.clicks)
+      .sort((a: any, b: any) => b.clicks - a.clicks) // Fixed implicit any
       .slice(0, 5)
-      .map((l) => ({ id: l.id, title: l.title, clicks: l.clicks }));
+      .map((l: any) => ({ id: l.id, title: l.title, clicks: l.clicks })); // Fixed implicit any
 
     res.json({
       totalViews: user.viewCount,
@@ -254,7 +254,7 @@ router.get("/users/me/analytics", requireAuth, async (req, res) => {
       viewsByDay: days,
       topLinks,
     });
-  } catch (err) {
+  } catch (err: any) { // Fixed implicit any
     req.log.error({ err }, "Failed to get analytics");
     res.status(500).json({ error: "Internal server error" });
   }
@@ -264,7 +264,7 @@ router.post("/payments/paypal/create-order", requireAuth, async (req, res) => {
   try {
     const result = await createOrder();
     res.json(result);
-  } catch (err) {
+  } catch (err: any) { // Fixed implicit any
     req.log.error({ err }, "Failed to create PayPal order");
     res.status(500).json({ error: "Failed to create order" });
   }
@@ -299,7 +299,7 @@ router.post("/payments/paypal/capture-order", requireAuth, async (req, res) => {
       createdAt: user!.createdAt.toISOString(),
       profileUrl: `${domain}/${user!.username}`,
     });
-  } catch (err) {
+  } catch (err: any) { // Fixed implicit any
     req.log.error({ err }, "Failed to capture PayPal order");
     res.status(500).json({ error: "Internal server error" });
   }
