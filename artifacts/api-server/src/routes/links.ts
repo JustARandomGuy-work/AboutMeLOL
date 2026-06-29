@@ -14,7 +14,7 @@ router.get("/users/me/links", requireAuth, async (req, res) => {
       .where(eq(linksTable.userId, req.userId!))
       .orderBy(asc(linksTable.order));
 
-    res.json(links.map((l) => ({
+    res.json(links.map((l: any) => ({ // Fixed implicit any
       id: l.id,
       userId: l.userId,
       title: l.title,
@@ -25,7 +25,7 @@ router.get("/users/me/links", requireAuth, async (req, res) => {
       clicks: l.clicks,
       createdAt: l.createdAt.toISOString(),
     })));
-  } catch (err) {
+  } catch (err: any) { // Fixed implicit any
     req.log.error({ err }, "Failed to get links");
     res.status(500).json({ error: "Internal server error" });
   }
@@ -40,7 +40,7 @@ router.post("/users/me/links", requireAuth, async (req, res) => {
       .from(linksTable)
       .where(eq(linksTable.userId, req.userId!));
 
-    const maxOrder = existing.length > 0 ? Math.max(...existing.map((l) => l.order)) : -1;
+    const maxOrder = existing.length > 0 ? Math.max(...existing.map((l: any) => l.order)) : -1; // Fixed implicit any
 
     const [link] = await db.insert(linksTable).values({
       id: generateId(),
@@ -64,7 +64,7 @@ router.post("/users/me/links", requireAuth, async (req, res) => {
       clicks: link.clicks,
       createdAt: link.createdAt.toISOString(),
     });
-  } catch (err) {
+  } catch (err: any) { // Fixed implicit any
     req.log.error({ err }, "Failed to create link");
     res.status(500).json({ error: "Internal server error" });
   }
@@ -81,7 +81,7 @@ router.post("/users/me/links/reorder", requireAuth, async (req, res) => {
     );
 
     res.json({ success: true, message: null });
-  } catch (err) {
+  } catch (err: any) { // Fixed implicit any
     req.log.error({ err }, "Failed to reorder links");
     res.status(500).json({ error: "Internal server error" });
   }
@@ -129,7 +129,7 @@ router.put("/users/me/links/:id", requireAuth, async (req, res) => {
       clicks: updated.clicks,
       createdAt: updated.createdAt.toISOString(),
     });
-  } catch (err) {
+  } catch (err: any) { // Fixed implicit any
     req.log.error({ err }, "Failed to update link");
     res.status(500).json({ error: "Internal server error" });
   }
@@ -151,7 +151,7 @@ router.delete("/users/me/links/:id", requireAuth, async (req, res) => {
     await db.delete(linksTable).where(eq(linksTable.id, id));
 
     res.json({ success: true, message: null });
-  } catch (err) {
+  } catch (err: any) { // Fixed implicit any
     req.log.error({ err }, "Failed to delete link");
     res.status(500).json({ error: "Internal server error" });
   }
