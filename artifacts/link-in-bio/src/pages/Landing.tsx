@@ -520,8 +520,7 @@ export default function LandingPage() {
         <div className="relative z-10 max-w-3xl mx-auto">
           <Reveal className="text-center mb-10 flex flex-col items-center">
             <h2 className="text-3xl md:text-4xl font-black tracking-tight mb-1">
-              Explore our exclusive plans and join{" "}
-              <span style={{ color: "#c084fc" }}>51,600+</span> subscribers
+              Get your permanent corner of the internet for the price of a coffee.
             </h2>
           </Reveal>
 
